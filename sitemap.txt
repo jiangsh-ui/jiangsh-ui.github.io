@@ -1,3 +1,4 @@
+http://example.com/2022/07/24/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/
 http://example.com/timeline/index.html
 http://example.com/messageboard/index.html
 http://example.com/tags/index.html
