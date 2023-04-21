@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-04-21T02:22:52.682Z</updated>
+  <updated>2023-04-21T06:21:03.277Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>config源码分析</title>
+    <link href="http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
+    <id>http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</id>
+    <published>2023-04-21T04:18:20.000Z</published>
+    <updated>2023-04-21T06:21:03.277Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="config源码分析"><a href="#config源码分析" class="headerlink" title="config源码分析"></a>config源码分析</h1><meta name="referrer" content="no-referrer" /><h2 id="config-client如何从config-server获取配置文件"><a href="#config-client如何从config-server获取配置文件" class="headerlink" title="config-client如何从config-server获取配置文件"></a>config-client如何从config-server获取配置文件</h2><p>在spring-cloud-config-client包中存在ConfigServicePropertySourceLocator类，在spring启动加载的时候首先会从该类通过RestTemplate远程调用接口获取信息。</p><p>1.首先在ConfigServicePropertySourceLocator类的locate方法打个断点。</p><p><img src="https://img-blog.csdnimg.cn/75242d99a5884114b12bc55e60cb6462.png" alt="在这里插入图片描述"></p><p>2.在进入defaultProperties.override方法中获取配置文件</p><p><img src="https://img-blog.csdnimg.cn/5b02919e5eff40f798218dca55e97a2d.png" alt="在这里插入图片描述"></p><p>3.ConfigClientProperties,该类会去获取config-client中配置文件信息，该类是一个获取配置文件的类</p><p><img src="https://img-blog.csdnimg.cn/8b5d022804e847889a6aed9099370e31.png" alt="在这里插入图片描述"></p><p>获取的配置文件如下以及注册中心的地址(该配置文件不在下展示)</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">config:</span></span><br><span class="line">      <span class="attr">username:</span> </span><br><span class="line">      <span class="attr">password:</span> </span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">serviceId:</span> <span class="string">rise-config-server</span></span><br><span class="line">      <span class="attr">fail-fast:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure><p>4.BeanUtils.copyProperties会进行数据交换，将this数据赋给override对象</p><p><img src="https://img-blog.csdnimg.cn/fb566e9fb7944883818a541123c77566.png" alt="在这里插入图片描述"></p><p>5.后面会对override进行赋值,将它返回</p><p><img src="https://img-blog.csdnimg.cn/ad67d4bba5b94bc6b9fd9f805549aead.png" alt="在这里插入图片描述"></p><p>6.返回数据后，来到ConfigServicePropretySourceLocator类中的lcoate方法中的getRemoteEnvironment()方法，获取远程数据。</p><p><img src="https://img-blog.csdnimg.cn/d78b47533dfb430da7658e6ef436da59.png" alt="在这里插入图片描述"></p><p>7.这里会去创建一个RestTemplate去远程获取数据。<br><img src="https://img-blog.csdnimg.cn/fd58f6a4760341e9b999b7bd523d2372.png" alt="在这里插入图片描述"></p><p>8,获取url的拼接路径</p><p><img src="https://img-blog.csdnimg.cn/d7720e5065754092a10cd8ba26307e91.png" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/981baedabb2b440cb92ef4c96b6602af.png" alt="在这里插入图片描述"></p><p>9.通过RestTemplate去获取数据，返回对象为 Environment类<br><img src="https://img-blog.csdnimg.cn/08be9a467fa44173af0b6144413213c1.png" alt="在这里插入图片描述"></p><p>uri+path的路径如下</p><p><img src="https://img-blog.csdnimg.cn/c4d6afdd83604c068c77700e53afc6f2.png" alt="在这里插入图片描述"></p><p>该路径就相当于从config-server中获取信息，config-server路径就是url+path路径</p><p>10.最后将数据返回，通过上面方法我们便能获取config-server中配置文件，然后将数据读取到该应用spring配置文件</p><p><img src="https://img-blog.csdnimg.cn/cb6095c80cd146c6abad655753b99c6c.png" alt="在这里插入图片描述"></p><p>所有断点位置</p><p><img src="https://img-blog.csdnimg.cn/1c23dd53541e42189eefefd1a827d7de.png" alt="在这里插入图片描述"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;config源码分析&quot;&gt;&lt;a href=&quot;#config源码分析&quot; class=&quot;headerlink&quot; title=&quot;config源码分析&quot;&gt;&lt;/a&gt;config源码分析&lt;/h1&gt;&lt;meta name=&quot;referrer&quot; content=&quot;no-referre</summary>
+      
+    
+    
+    
+    
+    <category term="spring cloud" scheme="http://example.com/tags/spring-cloud/"/>
+    
+    <category term="config" scheme="http://example.com/tags/config/"/>
+    
+  </entry>
   
   <entry>
     <title>干掉mapper.xml！MyBatis新特性动态SQL真香！</title>
@@ -103,30 +127,6 @@
     
     
     <category term="nginx" scheme="http://example.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>config源码分析</title>
-    <link href="http://example.com/2022/07/12/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    <id>http://example.com/2022/07/12/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</id>
-    <published>2022-07-12T12:18:20.000Z</published>
-    <updated>2023-04-21T06:18:08.193Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="config源码分析"><a href="#config源码分析" class="headerlink" title="config源码分析"></a>config源码分析</h1><meta name="referrer" content="no-referrer" /><h2 id="config-client如何从config-server获取配置文件"><a href="#config-client如何从config-server获取配置文件" class="headerlink" title="config-client如何从config-server获取配置文件"></a>config-client如何从config-server获取配置文件</h2><p>在spring-cloud-config-client包中存在ConfigServicePropertySourceLocator类，在spring启动加载的时候首先会从该类通过RestTemplate远程调用接口获取信息。</p><p>1.首先在ConfigServicePropertySourceLocator类的locate方法打个断点。</p><p><img src="https://img-blog.csdnimg.cn/75242d99a5884114b12bc55e60cb6462.png" alt="在这里插入图片描述"></p><p>2.在进入defaultProperties.override方法中获取配置文件</p><p><img src="https://img-blog.csdnimg.cn/5b02919e5eff40f798218dca55e97a2d.png" alt="在这里插入图片描述"></p><p>3.ConfigClientProperties,该类会去获取config-client中配置文件信息，该类是一个获取配置文件的类</p><p><img src="https://img-blog.csdnimg.cn/8b5d022804e847889a6aed9099370e31.png" alt="在这里插入图片描述"></p><p>获取的配置文件如下以及注册中心的地址(该配置文件不在下展示)</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">config:</span></span><br><span class="line">      <span class="attr">username:</span> </span><br><span class="line">      <span class="attr">password:</span> </span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">serviceId:</span> <span class="string">rise-config-server</span></span><br><span class="line">      <span class="attr">fail-fast:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure><p>4.BeanUtils.copyProperties会进行数据交换，将this数据赋给override对象</p><p><img src="https://img-blog.csdnimg.cn/fb566e9fb7944883818a541123c77566.png" alt="在这里插入图片描述"></p><p>5.后面会对override进行赋值,将它返回</p><p><img src="https://img-blog.csdnimg.cn/ad67d4bba5b94bc6b9fd9f805549aead.png" alt="在这里插入图片描述"></p><p>6.返回数据后，来到ConfigServicePropretySourceLocator类中的lcoate方法中的getRemoteEnvironment()方法，获取远程数据。</p><p><img src="https://img-blog.csdnimg.cn/d78b47533dfb430da7658e6ef436da59.png" alt="在这里插入图片描述"></p><p>7.这里会去创建一个RestTemplate去远程获取数据。<br><img src="https://img-blog.csdnimg.cn/fd58f6a4760341e9b999b7bd523d2372.png" alt="在这里插入图片描述"></p><p>8,获取url的拼接路径</p><p><img src="https://img-blog.csdnimg.cn/d7720e5065754092a10cd8ba26307e91.png" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/981baedabb2b440cb92ef4c96b6602af.png" alt="在这里插入图片描述"></p><p>9.通过RestTemplate去获取数据，返回对象为 Environment类<br><img src="https://img-blog.csdnimg.cn/08be9a467fa44173af0b6144413213c1.png" alt="在这里插入图片描述"></p><p>uri+path的路径如下</p><p><img src="https://img-blog.csdnimg.cn/c4d6afdd83604c068c77700e53afc6f2.png" alt="在这里插入图片描述"></p><p>该路径就相当于从config-server中获取信息，config-server路径就是url+path路径</p><p>10.最后将数据返回，通过上面方法我们便能获取config-server中配置文件，然后将数据读取到该应用spring配置文件</p><p><img src="https://img-blog.csdnimg.cn/cb6095c80cd146c6abad655753b99c6c.png" alt="在这里插入图片描述"></p><p>所有断点位置</p><p><img src="https://img-blog.csdnimg.cn/1c23dd53541e42189eefefd1a827d7de.png" alt="在这里插入图片描述"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;config源码分析&quot;&gt;&lt;a href=&quot;#config源码分析&quot; class=&quot;headerlink&quot; title=&quot;config源码分析&quot;&gt;&lt;/a&gt;config源码分析&lt;/h1&gt;&lt;meta name=&quot;referrer&quot; content=&quot;no-referre</summary>
-      
-    
-    
-    
-    
-    <category term="spring cloud" scheme="http://example.com/tags/spring-cloud/"/>
-    
-    <category term="config" scheme="http://example.com/tags/config/"/>
     
   </entry>
   
