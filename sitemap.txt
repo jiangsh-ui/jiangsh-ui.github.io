@@ -9,7 +9,7 @@ http://example.com/timeline/index.html
 http://example.com/messageboard/index.html
 http://example.com/2023/03/18/hello-world/
 http://example.com/
+http://example.com/tags/nginx/
 http://example.com/tags/spring-cloud/
 http://example.com/tags/config/
 http://example.com/tags/Mybatis/
-http://example.com/tags/nginx/
