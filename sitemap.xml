@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</loc>
+    
+    <lastmod>2023-04-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2023/03/18/%E5%B9%B2%E6%8E%89mapper-xml%EF%BC%81MyBatis%E6%96%B0%E7%89%B9%E6%80%A7%E5%8A%A8%E6%80%81SQL%E7%9C%9F%E9%A6%99%EF%BC%81/</loc>
     
     <lastmod>2023-04-21</lastmod>
@@ -30,15 +39,6 @@
   
   <url>
     <loc>http://example.com/tags/index.html</loc>
-    
-    <lastmod>2023-04-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</loc>
     
     <lastmod>2023-04-21</lastmod>
     
@@ -100,6 +100,20 @@
   
   <url>
     <loc>http://example.com/tags/Mybatis/</loc>
+    <lastmod>2023-04-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Spring-cloud/</loc>
+    <lastmod>2023-04-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/config/</loc>
     <lastmod>2023-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

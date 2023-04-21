@@ -1,8 +1,8 @@
+http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/
 http://example.com/2023/03/18/%E5%B9%B2%E6%8E%89mapper-xml%EF%BC%81MyBatis%E6%96%B0%E7%89%B9%E6%80%A7%E5%8A%A8%E6%80%81SQL%E7%9C%9F%E9%A6%99%EF%BC%81/
 http://example.com/categories/index.html
 http://example.com/2022/07/12/nginx%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98/
 http://example.com/tags/index.html
-http://example.com/2023/04/21/spring-cloud-config-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/
 http://example.com/2022/07/24/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/
 http://example.com/timeline/index.html
 http://example.com/messageboard/index.html
@@ -10,3 +10,5 @@ http://example.com/2023/03/18/hello-world/
 http://example.com/
 http://example.com/tags/nginx/
 http://example.com/tags/Mybatis/
+http://example.com/tags/Spring-cloud/
+http://example.com/tags/config/
